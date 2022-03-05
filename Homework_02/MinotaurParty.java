@@ -69,24 +69,24 @@ public class MinotaurParty implements Runnable {
     }
 
     public synchronized boolean maze(boolean iHaveEaten) {
-        synchronized (lock) {
-            if (counterID == Thread.currentThread().getId()) {
-                // System.out.println("Counter is : " + Thread.currentThread().getId());
+        // synchronized (lock) {
+        if (counterID == Thread.currentThread().getId()) {
+            // System.out.println("Counter is : " + Thread.currentThread().getId());
 
-                counterChecksCupcake();
+            counterChecksCupcake();
 
-            } else {
-                // System.out.println("Guest " + Thread.currentThread().getId() + " has eaten "
-                // + iHaveEaten);
-                // System.out.println(Thread.currentThread().getId() + " The cupcake exists! " +
-                // cupcakeExists);
+        } else {
+            // System.out.println("Guest " + Thread.currentThread().getId() + " has eaten "
+            // + iHaveEaten);
+            // System.out.println(Thread.currentThread().getId() + " The cupcake exists! " +
+            // cupcakeExists);
 
-                iHaveEaten = shouldIEat(iHaveEaten);
-            }
-
-            // System.out.println("The count is " + count);
-            return iHaveEaten;
+            iHaveEaten = shouldIEat(iHaveEaten);
         }
+
+        // System.out.println("The count is " + count);
+        return iHaveEaten;
+        // }
     }
 
     public synchronized void counterChecksCupcake() {

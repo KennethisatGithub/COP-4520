@@ -4,37 +4,59 @@
 // ke035936
 
 import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
-import java.time.*;
 
 public class MinotaurCrystalVase implements Runnable {
-    public static int numThreads = 5;
+    public static int numThreads = 2;
     public static long[] guestIDs = new long[numThreads];
     public static long vaseStartTime = System.currentTimeMillis();
     public static long vaseEndTime = vaseStartTime + 3 * 1000; // 10 seconds
     public static boolean vaseViewingOpen = true;
+    public static ArrayLock arrayLock = new ArrayLock(numThreads);
+    public static List<Long> testSet = new ArrayList<>(numThreads);
+    public static Set<Long> testSet2 = new HashSet<>(numThreads);
+
+    public static long testNum = 0;
+    public static int count = 0;
+    public static int count2 = 0;
 
     public void run() {
-        System.out.println("Thread ID is : " + Thread.currentThread().getId());
+        // System.out.println("Thread ID is : " + Thread.currentThread().getId());
 
         while (isViewingOpen()) {
             try {
-                // while (everyoneAte() == false) {
+                arrayLock.lock();
+                CrystalVaseViewing();
+                arrayLock.unlock();
+                // Thread.sleep(2000);
 
-                // ans = reentryLock.tryLock();
-                // if (true) {
-                // reentryLock.lock();
-                maze();
-                // Thread.sleep(1000);
-                // }
-                // reentryLock.unlock();
-                // }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            // System.out.println("Thread ID is : " + Thread.currentThread().getId());
         }
+    }
 
+    public static void CrystalVaseViewing() {
+        try {
+            // System.out.println("I am using the critical area : " +
+            // Thread.currentThread().getId());
+            testSet2.add(Thread.currentThread().getId());
+
+            if (count2 < 100) {
+                testSet.add(Thread.currentThread().getId());
+                count2++;
+            }
+
+            if (count < 3) {
+                testNum += Thread.currentThread().getId();
+                count++;
+            }
+            // Thread.sleep(500);
+
+            // System.out.println("Viewing vase." + count);
+            // count++;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static boolean isViewingOpen() {
@@ -43,23 +65,6 @@ public class MinotaurCrystalVase implements Runnable {
         }
 
         return true;
-    }
-
-    public synchronized void maze() {
-        // synchronized (lock) {
-        // // if (counterID == Thread.currentThread().getId()) {
-        // // // System.out.println("Counter is : " + Thread.currentThread().getId());
-
-        // // // counterChecksCupcake();
-
-        System.out.println("Viewing vase.");
-        // // } else {
-
-        // // // iHaveEaten = shouldIEat(iHaveEaten);
-        // // }
-
-        // // return iHaveEaten;
-        // }
     }
 
     public static void main(String[] args) {
@@ -91,6 +96,16 @@ public class MinotaurCrystalVase implements Runnable {
         long timeElapsed = endTime - startTime;
         System.out.println("Execution time in milliseconds: " + timeElapsed / 1000000);
 
+        // System.out.println(testSet);
+        // for (int i = 0; i < testSet.size(); i++) {
+        // System.out.println(testSet.get(i));
+        // }
+        // System.out.println(testSet2);
+        // for (Long item : testSet) {
+        // System.out.println(item);
+        // }
+        System.out.println(testSet.size());
+        // System.out.println(testNum);
         // Start program
         // Assign first thread as counter
         // Randomly select threads to go through maze
