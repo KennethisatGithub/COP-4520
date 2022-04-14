@@ -10,7 +10,7 @@ import java.time.*;
 
 public class MinotaurBirthday implements Runnable {
     public static int numThreads = 4;
-    public static int numGifts   = 100;
+    public static int numGifts   = 500000;
     public static long[] servantIDs = new long[numThreads];
 
     public static List<Integer> giftBag = Collections.synchronizedList(new ArrayList<Integer>(numGifts));
@@ -60,7 +60,7 @@ public class MinotaurBirthday implements Runnable {
         //     printList();
         // }
         // && head.next.key == Integer.MAX_VALUE
-        if (giftBag.isEmpty() &&  head.next.key == Integer.MAX_VALUE) {
+        if (giftBag.isEmpty()) {
             return true;
         }
         
@@ -254,7 +254,7 @@ public class MinotaurBirthday implements Runnable {
                 servant[i].join();
             }
 
-            printList();
+            // printList();
 
             // System.out.println(thankYouCards);
             // System.out.println(thankYouCards.size());
