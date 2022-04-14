@@ -60,7 +60,7 @@ public class MinotaurBirthday implements Runnable {
         //     printList();
         // }
         // && head.next.key == Integer.MAX_VALUE
-        if (giftBag.isEmpty()) {
+        if (giftBag.isEmpty() && head.next.key == Integer.MAX_VALUE) {
             return true;
         }
         
@@ -82,7 +82,7 @@ public class MinotaurBirthday implements Runnable {
         atomCount.set(0);
     }
 
-    public static synchronized Integer getAndRemove() {
+    public synchronized Integer getAndRemove() {
         if (!giftBag.isEmpty()) {
             Integer giftNumber = Integer.valueOf(giftBag.get(0));
             // WriteCard(giftNumber);
@@ -113,8 +113,8 @@ public class MinotaurBirthday implements Runnable {
             //     contains(randomNum);
             // }
             
-            if (giftNumber != null) {
-                remove(giftNumber);
+            if (head.next.key != Integer.MAX_VALUE) {
+                remove(head.next.key);
             }
 
         } catch (Exception e) {
@@ -254,7 +254,7 @@ public class MinotaurBirthday implements Runnable {
                 servant[i].join();
             }
 
-            // printList();
+            printList();
 
             // System.out.println(thankYouCards);
             // System.out.println(thankYouCards.size());
